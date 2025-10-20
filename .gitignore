@@ -1,0 +1,20 @@
+# Maven
+/target/
+
+# Eclipse
+/.project
+/.classpath
+/.settings/
+/.metadata/
+bin/
+
+# IntelliJ (se abrir lá um dia)
+/.idea/
+*.iml
+
+# SO
+.DS_Store
+Thumbs.db
+
+# Dados locais do app
+/data/
