@@ -5,46 +5,54 @@ import java.util.Map;
 
 public class CommandParser {
 	public Command parse(String[] args) {
+
 		if (args.length == 0)
+
 			throw new IllegalArgumentException("Missing command");
+
 		String verb = args[0];
-		Map<String, String> opts = new LinkedHashMap<String, String>();
+
+		Map<String, String> options = new LinkedHashMap<String, String>();
 
 		for (int i = 1; i < args.length; i++) {
 
-			String a = args[i];
+			String token = args[i];
 
-			a = a.replace('–', '-').replace('—', '-');
+			token = token.replace('–', '-').replace('—', '-');
 
-			if (!a.startsWith("--"))
+			if (!token.startsWith("--"))
 				continue;
 
-			int eq = a.indexOf('=');
+			int equalIndex = token.indexOf('=');
 
-			if (a.startsWith("--") && eq > 2) {
+			if (token.startsWith("--") && equalIndex > 2) {
 
-				String k = a.substring(2, eq);
+				String k = token.substring(2, equalIndex);
 
-				String v = stripQuotes(a.substring(eq + 1));
+				String v = stripQuotes(token.substring(equalIndex + 1));
 
-				opts.put(k, v);
+				options.put(k, v);
 			} else {
-				String k = a.substring(2);
+				String k = token.substring(2);
 				String v = (i + 1 < args.length && !args[i + 1].startsWith("--")) ? args[i++] : "";
-				opts.put(k, stripQuotes(v));
+				options.put(k, stripQuotes(v));
 			}
 		}
-		return new Command(verb, opts);
+		return new Command(verb, options);
 	}
 
-	private static String stripQuotes(String v) {
-		if (v == null)
+	private static String stripQuotes(String value) {
+
+		if (value == null)
 			return "";
-		if (v.length() >= 2 && ((v.startsWith("\"") && v.endsWith("\""))) || (v.startsWith("'") && v.endsWith("'"))) {
-			return v.substring(1, v.length() - 1);
+
+		if (value.length() >= 2 && ((value.startsWith("\"") && value.endsWith("\"")))
+
+				|| (value.startsWith("'") && value.endsWith("'"))) {
+			return value.substring(1, value.length() - 1);
 
 		}
-		return v;
+		return value;
 	}
 
 }
