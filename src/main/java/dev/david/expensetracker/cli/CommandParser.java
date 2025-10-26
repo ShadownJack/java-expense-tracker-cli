@@ -34,7 +34,7 @@ public class CommandParser {
 				options.put(k, v);
 			} else {
 				String k = token.substring(2);
-				String v = (i + 1 < args.length && !args[i + 1].startsWith("--")) ? args[i++] : "";
+				String v = (i + 1 < args.length && !args[i + 1].startsWith("--")) ? args[++i] : "";
 				options.put(k, stripQuotes(v));
 			}
 		}
